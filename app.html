@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Entry Manager — Devanagari + Letterhead</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+<style>
+body{
+  font-family:"Noto Sans Devanagari", system-ui, sans-serif;
+  background:#f7fafc;
+  margin:16px;
+}
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  background:#fff;
+  padding:18px;
+  border-radius:8px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+textarea{
+  width:100%;
+  min-height:140px;
+  padding:10px;
+  box-sizing:border-box;
+}
+.detect-row,.controls{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.field-input{
+  min-width:140px;
+  padding:8px;
+}
+.preview{
+  border:1px dashed #cbd5e1;
+  padding:12px;
+  margin-top:10px;
+  white-space:pre-wrap;
+  font-family:"Noto Sans Devanagari", Mangal;
+}
+.preview div{margin:0;padding:0}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:16px;
+}
+th,td{
+  border:1px solid #ddd;
+  padding:8px;
+}
+th{background:#f1f5f9}
+
+button{
+  padding:8px 12px;
+  border:0;
+  border-radius:6px;
+  cursor:pointer;
+}
+.alt{background:#94a3b8}
+.small-btn{background:#0ea5a3;color:#fff}
+.excel-btn{background:#16a34a;color:#fff}
+
+.letterhead-preview{
+  width:100%;
+  max-height:110px;
+  object-fit:contain;
+  margin-top:8px;
+}
+#templateArea.hidden{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<h2>Technical Sanction Generation 📄</h2>
+<button id="toggleTemplate" class="alt" style="margin-bottom:6px;">
+  Show / Edit Template 📝
+</button>
+<textarea id="templateArea"><div style="
+font-weight:700;
+font-size:16pt;
+text-align:center;
+font-family:'Noto Sans Devanagari', Mangal;
+margin:0;
+padding:0;
+">---तकनीकी स्वीकृती---</div>
+तकनीकी स्वीकृति क्र. सं.- {{TS_No}}                                                                               दिनांक - {{TS_Date}}
+
+योजना का नाम 	{{Project}} के अंतर्गत निम्न कार्य की तकनीकी स्वीकृति एतद द्वारा प्रदान की जाती है । 
+1.	कार्य का नाम - {{Work_name}}
+2.	ग्राम व कार्य स्थल – {{Village}}  ग्राम पंचायत  –  {{Gram_Panchayat}}   पं. स. – {{Panchayat_Samiti}}
+3.	वार्षिक कार्य योजना क्रम संख्या : {{AAP_No}}
+4.	प्रशासनिक स्वीकृति क्रमांक. {{FS_No}}    			                        दिनांक : {{FS_Date}}	
+5.	कार्य पूर्ण होने की अनुमानित अवधि  - {{Work_Period_Months}} माह 
+6.	स्वीकृत राशि परिशिष्ठ – 6 में अंकित लागत अनुमान के अनुसार :
+अ. 	श्रम घटक : नकद राशि  {{Labour_Amt}}
+ब. 	सामग्री  घटक {{Material_Amt}}             
+	कुल राशि (अ+ब) : {{Total_Amt}}/-     
+	यह प्रमाणित किया जाता है कि इस कार्य का अनुमान ग्रामीण विकास एवं पंचायतीराज विभाग (आयुक्तालय जलग्रहण विकास एवं भू-संरक्षण विभाग राजस्थान. जयपुर के आदेश क्रमांक एफ. 20(229) आजभूस/पीएफसी/2018/5293-408 दि. 12.02.2018 द्वारा प्रदत्त शक्तिया प्रावधान अनुसार बनाया गया है।  मानचित्र में दिये परिणामों को ध्यान में रखते हुये यर्थात में गणना कर मात्रा निकाली है, विशेष विवरण तथा दरों की सत्यता से जांच लिया गया है । प्रस्ताव के निर्दिष्ट सिद्धांत, बनावट की ठोसता एंव कार्य की उपयोगिता को कार्य स्थल का निरीक्षण कर, निर्माण की संभावना को सुनिश्चित कर लिया गया है । 
+
+                                                                                                                           ({{Officer}})
+                                                                                                                      अधिशाषी अभियन्ता
+                                                                                                              जलग्रहण विकास एवं भू-संरक्षण
+                                                                                                                पंचायत समिति हनुमानगढ़ 
+तकनीकी स्वीकृति क्र. सं.- {{TS_No}}                                                                               दिनांक - {{TS_Date}}
+प्रतिलिपि : 
+1.	अधीक्षण अभियंता एंव परियोजना  प्रबंधक डबल्यू सी डी सी  जिला परिषद हनुमानगढ़ । 
+
+                                                                                                                      अधिशाषी अभियन्ता
+                                                                                                              जलग्रहण विकास एवं भू-संरक्षण
+                                                                                                                पंचायत समिति हनुमानगढ़ </textarea>
+
+<!-- Letterhead -->
+<div class="detect-row">
+  <label>Upload Header📤:</label>
+  <input type="file" id="letterheadFile" accept="image/*">
+  <button id="clearLetterhead" class="alt">Clear</button>
+</div>
+<img id="letterPreview" class="letterhead-preview" style="display:none">
+
+<div class="detect-row">
+  <button id="detectBtn">Detect Fields 🔍</button>
+  <div id="fieldsContainer"></div>
+</div>
+
+<div class="controls">
+  <button id="saveBtn">Save Entry 💾🔄</button>
+  <button id="previewBtn" class="alt">Preview 👁️‍🗨️</button>
+  <button id="pdfBtn" class="alt">Download PDF ⬇️</button>
+  <button id="printBtn" class="alt">Print 🖨️</button>
+  <button id="excelBtn" class="excel-btn">Export Excel 📤</button>
+<button id="backupBtn" class="alt">Backup Data 🗄️</button>
+<button id="restoreBtn" class="alt">Restore Data ♻️</button>
+<input type="file" id="restoreFile" accept=".json" style="display:none">
+</div>
+
+<div id="preview" class="preview"></div>
+
+<table>
+<thead id="tableHead"></thead>
+<tbody id="savedTable"></tbody>
+</table>
+
+</div>
+
+<script>
+const templateArea=document.getElementById('templateArea');
+/* ===== GOOGLE SHEET API ===== */
+const SHEET_API_URL =
+"https://script.google.com/macros/s/AKfycbxSlyrsViyD5R1e30mWMnftQPDFT6P207xxea5Z1558QG9mwkOy0pzHmEcn8PEhO2qQuA/exec";
+/* RESTORE TEMPLATE FROM STORAGE */
+const savedTemplate = localStorage.getItem('SAVED_TEMPLATE');
+if(savedTemplate){
+  templateArea.value = savedTemplate;
+}
+const TEMPLATE_PASSWORD = "Aman";
+const fieldsContainer=document.getElementById('fieldsContainer');
+const toggleBtn = document.getElementById('toggleTemplate');
+/* page load pe template PURA hide */
+templateArea.classList.add('hidden');
+toggleBtn.onclick = ()=>{
+  if(templateArea.classList.contains('hidden')){
+    const pass = prompt("Enter Secret Code 🔒");
+    if(pass !== TEMPLATE_PASSWORD){
+      alert("Incorrect Code ❌");
+      return;
+    }
+    templateArea.classList.remove('hidden');
+    toggleBtn.textContent = 'Hide Template';
+  }else{
+    templateArea.classList.add('hidden');
+    toggleBtn.textContent = 'Show Template';
+  }
+};
+
+const previewEl=document.getElementById('preview');
+const savedTable=document.getElementById('savedTable');
+const tableHead=document.getElementById('tableHead');
+const excelBtn=document.getElementById('excelBtn');
+const letterInput=document.getElementById('letterheadFile');
+const letterPreview=document.getElementById('letterPreview');
+const clearLetter=document.getElementById('clearLetterhead');
+
+let LETTERHEAD_BASE64=localStorage.getItem('LETTERHEAD_BASE64');
+let detectedFields=[];
+let entries=JSON.parse(localStorage.getItem('entries_v1')||'[]');
+/* =========================================================
+   LETTERHEAD UPLOAD (NETLIFY + PRINT/PDF SAFE)
+   ========================================================= */
+
+/* restore header on page load */
+if(LETTERHEAD_BASE64){
+  letterPreview.src = LETTERHEAD_BASE64;
+  letterPreview.style.display = 'block';
+}
+
+/* upload new header */
+letterInput.onchange = e => {
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    LETTERHEAD_BASE64 = reader.result;   // Base64 image
+
+    // show preview
+    letterPreview.src = LETTERHEAD_BASE64;
+    letterPreview.style.display = 'block';
+
+    // 🔥 IMPORTANT: save for Netlify print/pdf
+    localStorage.setItem('LETTERHEAD_BASE64', LETTERHEAD_BASE64);
+  };
+
+  reader.readAsDataURL(file);  // MUST
+};
+
+/* clear header */
+clearLetter.onclick = ()=>{
+  LETTERHEAD_BASE64 = null;
+  localStorage.removeItem('LETTERHEAD_BASE64');
+  letterPreview.style.display = 'none';
+};
+
+/* FIELD DETECT */
+function detectFieldsFromTemplate(tpl){
+  const re=/{{\s*([a-zA-Z0-9_]+)\s*}}/g;
+  let m,arr=[];
+  while((m=re.exec(tpl))!==null) arr.push(m[1]);
+  return [...new Set(arr)];
+}
+
+function renderFields(){
+  fieldsContainer.innerHTML='';
+  detectedFields.forEach(f=>{
+    const i=document.createElement('input');
+    i.className='field-input';
+    i.placeholder=f;
+    i.dataset.f=f;
+    i.oninput=updatePreview;
+    fieldsContainer.appendChild(i);
+  });
+  updatePreview();
+}
+
+function fillTemplate(obj){
+  let out=templateArea.value;
+  detectedFields.forEach(f=>{
+    const v=obj?obj[f]:(document.querySelector(`[data-f="${f}"]`)?.value||'');
+    const boldVal = `<span style="font-weight:700">${v}</span>`;
+    out=out.replaceAll(`{{${f}}}`,boldVal)
+           .replaceAll(`{{ ${f} }}`,boldVal);
+  });
+  return out;
+}
+
+/* PREVIEW */
+function updatePreview(){
+  previewEl.innerHTML = fillTemplate();
+}
+
+/* INIT */
+const savedFields = JSON.parse(localStorage.getItem('SAVED_FIELDS')||'null');
+
+if(savedFields && savedFields.length){
+  detectedFields = savedFields;
+}else{
+  detectedFields = detectFieldsFromTemplate(templateArea.value);
+}
+
+renderFields();
+renderSaved();
+
+
+/* EVENTS */
+detectBtn.onclick=()=>{
+  detectedFields = detectFieldsFromTemplate(templateArea.value);
+
+  /* SAVE template + fields */
+  localStorage.setItem('SAVED_TEMPLATE', templateArea.value);
+  localStorage.setItem('SAVED_FIELDS', JSON.stringify(detectedFields));
+
+  renderFields();
+  renderSaved();
+};
+
+/* ===== SAVE ENTRY TO GOOGLE SHEET ===== */
+/* ===== SAVE ENTRY : GOOGLE SHEET + LOCAL TABLE ===== */
+saveBtn.onclick = async ()=>{
+  const data = {};
+
+  // 1️⃣ collect form data
+  detectedFields.forEach(f=>{
+    data[f] =
+      document.querySelector(`[data-f="${f}"]`)?.value || '';
+  });
+
+  /* 2️⃣ SAVE TO GOOGLE SHEET (background) */
+  try{
+    fetch(SHEET_API_URL,{
+      method:'POST',
+      mode:'no-cors',
+      body: JSON.stringify(data)
+    });
+  }catch(err){
+    console.warn('Sheet save failed', err);
+  }
+
+  /* 3️⃣ SAVE TO LOCAL TABLE (instant UI) */
+  entries.push(data);
+  localStorage.setItem('entries_v1', JSON.stringify(entries));
+  renderSaved();
+
+  /* 4️⃣ OPTIONAL : clear inputs */
+  detectedFields.forEach(f=>{
+    const el = document.querySelector(`[data-f="${f}"]`);
+    if(el) el.value = '';
+  });
+
+  updatePreview();
+
+  alert("✅ Entry saved (Sheet + Table)");
+};
+
+previewBtn.onclick=updatePreview;
+
+/* TABLE */
+function renderSaved(){
+  tableHead.innerHTML='';
+  savedTable.innerHTML='';
+  if(!detectedFields.length) return;
+
+  let th='<tr>';
+  detectedFields.forEach(f=>th+=`<th>${f}</th>`);
+  th+='<th>Print 🖨️</th><th>Delete ❌</th></tr>';
+  tableHead.innerHTML=th;
+
+  entries.forEach((e,i)=>{
+    let tr='<tr>';
+    detectedFields.forEach(f=>tr+=`<td>${e[f]||''}</td>`);
+    tr+=`
+      <td>
+        <button class="small-btn" onclick="printEntry(${i})">Print</button>
+      </td>
+      <td>
+        <button class="small-btn" onclick="deleteEntry(${i})">Delete</button>
+      </td>
+    </tr>`;
+    savedTable.innerHTML+=tr;
+  });
+}
+
+function deleteEntry(i){
+  if(confirm('Delete this entry?')){
+    entries.splice(i,1);
+    localStorage.setItem('entries_v1',JSON.stringify(entries));
+    renderSaved();
+  }
+}
+
+/* ✅ PDF — NO GAP */
+pdfBtn.onclick=()=>{
+  const page=document.createElement('div');
+  page.style.width='170mm';
+  page.style.whiteSpace='pre-wrap';
+  page.innerHTML =
+    (LETTERHEAD_BASE64
+      ? `<img src="${LETTERHEAD_BASE64}" style="width:100%;display:block">`
+      : ''
+    ) + fillTemplate().replace(/^\s+/,'');
+
+  html2pdf().set({
+    margin:[20,20,20,20],
+    filename:'entry.pdf',
+    html2canvas:{scale:1.5},
+    jsPDF:{unit:'mm',format:'a4'}
+  }).from(page).save();
+};
+
+/* PRINT — NO GAP */
+printBtn.onclick=()=>{
+  const w=window.open('');
+  w.document.write(`
+  <html><body style="margin:0;white-space:pre-wrap;font-family:'Noto Sans Devanagari'">
+  ${LETTERHEAD_BASE64?`<img src="${LETTERHEAD_BASE64}" style="width:100%;display:block">`:''}
+  ${fillTemplate().replace(/^\s+/, '')}
+  </body></html>`);
+  w.document.close();
+  w.onload=()=>w.print();
+};
+function printEntry(i){
+   const w = window.open('');
+  w.document.write(`
+    <html><body style="margin:0;white-space:pre-wrap;font-family:'Noto Sans Devanagari'">
+    ${LETTERHEAD_BASE64?`<img src="${LETTERHEAD_BASE64}" style="width:100%;display:block">`:''}
+    ${fillTemplate(entries[i]).replace(/^\s+/, '')}
+    </body></html>
+  `);
+  w.document.close();
+  w.onload = () => w.print();
+}
+/* ✅ EXPORT EXCEL (CSV) */
+excelBtn.onclick=()=>{
+  if(!entries.length){ alert('No data'); return; }
+  let csv=detectedFields.join(',')+'\n';
+  entries.forEach(e=>{
+    csv+=detectedFields.map(f=>`"${(e[f]||'').replace(/"/g,'""')}"`).join(',')+'\n';
+  });
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='entries.csv';
+  a.click();
+};
+/* ================= BACKUP ================= */
+backupBtn.onclick = ()=>{
+  const backupData = {
+    template: templateArea.value,
+    fields: detectedFields,
+    entries: entries,
+    letterhead: LETTERHEAD_BASE64
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(backupData, null, 2)],
+    {type:'application/json'}
+  );
+
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'entry_backup.json';
+  a.click();
+};
+
+/* ================= RESTORE ================= */
+restoreBtn.onclick = ()=>{
+  restoreFile.click();
+};
+
+restoreFile.onchange = e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const r = new FileReader();
+  r.onload = ()=>{
+    try{
+      const data = JSON.parse(r.result);
+
+      if(data.template) templateArea.value = data.template;
+      if(data.fields) detectedFields = data.fields;
+      if(data.entries) entries = data.entries;
+      if(data.letterhead) LETTERHEAD_BASE64 = data.letterhead;
+
+      localStorage.setItem('SAVED_TEMPLATE', templateArea.value);
+      localStorage.setItem('SAVED_FIELDS', JSON.stringify(detectedFields));
+      localStorage.setItem('entries_v1', JSON.stringify(entries));
+      if(LETTERHEAD_BASE64)
+        localStorage.setItem('LETTERHEAD_BASE64', LETTERHEAD_BASE64);
+
+      renderFields();
+      renderSaved();
+      updatePreview();
+
+      alert('Backup successfully restored ✅');
+    }catch(err){
+      alert('Invalid backup file ❌');
+    }
+  };
+  r.readAsText(file);
+};
+</script>
+</body>
+</html>

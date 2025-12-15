@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Technical Sanction Login</title>
+
+<link rel="stylesheet"
+ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+*{box-sizing:border-box}
+
+.login-bg{
+  position:fixed; inset:0;
+  min-height:100svh;
+  background:
+    linear-gradient(rgba(15,23,42,.6),rgba(15,23,42,.6)),
+    url("https://png.pngtree.com/thumb_back/fh260/background/20230611/pngtree-diagram-showing-a-flow-of-an-watershed-image_2890858.jpg");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+}
+
+.box{
+  background:#fff;
+  width:100%;
+  max-width:380px;
+  padding:26px;
+  border-radius:16px;
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+  text-align:center;
+}
+
+.icon{font-size:46px;color:#0ea5a3;margin-bottom:6px}
+h2{margin:6px 0 4px;font-size:20px}
+p{margin:0 0 16px;font-size:13px;color:#64748b}
+
+.input-wrap{position:relative;margin-bottom:12px}
+.input-wrap i{
+  position:absolute;left:12px;top:50%;
+  transform:translateY(-50%);color:#64748b
+}
+input{
+  width:100%;
+  padding:10px 12px 10px 36px;
+  border-radius:10px;
+  border:1px solid #cbd5e1;
+  font-size:14px
+}
+
+button{
+  width:100%;margin-top:6px;
+  padding:11px;
+  background:#0ea5a3;
+  color:#fff;border:0;
+  border-radius:10px;
+  font-size:15px;
+  cursor:pointer
+}
+button:hover{background:#0284c7}
+
+.link{
+  margin-top:10px;
+  font-size:13px;
+  cursor:pointer;
+  color:#0284c7;
+}
+
+.hidden{display:none}
+</style>
+</head>
+
+<body>
+
+<div class="login-bg">
+  <div class="box">
+
+    <div class="icon"><i class="fa-solid fa-building"></i></div>
+    <h2>Technical Sanction Portal</h2>
+    <p>Watershed • PMKSY 2.0 • MJSA</p>
+
+    <!-- ===== LOGIN ===== -->
+    <div id="loginForm">
+      <div class="input-wrap">
+        <i class="fa-solid fa-user"></i>
+        <input id="loginUser" placeholder="Username">
+      </div>
+
+      <div class="input-wrap">
+        <i class="fa-solid fa-lock"></i>
+        <input id="loginPass" type="password" placeholder="Password">
+      </div>
+
+      <button onclick="login()">Login</button>
+
+      <div class="link" onclick="showRegister()">
+        New user? Create Account
+      </div>
+    </div>
+
+    <!-- ===== REGISTER ===== -->
+    <div id="registerForm" class="hidden">
+      <div class="input-wrap">
+        <i class="fa-solid fa-user"></i>
+        <input id="regUser" placeholder="Username">
+      </div>
+
+      <div class="input-wrap">
+        <i class="fa-solid fa-envelope"></i>
+        <input id="regEmail" placeholder="Gmail">
+      </div>
+
+      <div class="input-wrap">
+        <i class="fa-solid fa-lock"></i>
+        <input id="regPass" type="password" placeholder="Password">
+      </div>
+
+      <button onclick="register()">Create Account</button>
+
+      <div class="link" onclick="showLogin()">Back to Login</div>
+    </div>
+
+    <!-- ===== OTP VERIFY ===== -->
+    <div id="otpForm" class="hidden">
+      <div class="input-wrap">
+        <i class="fa-solid fa-key"></i>
+        <input id="otp" placeholder="Enter OTP">
+      </div>
+
+      <button onclick="verifyOTP()">Verify OTP</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const API =
+"https://script.google.com/macros/s/AKfycbysC0l2leszo4wWporgCJMcBHE-yixc-tye7w-UTJaOVP1zYHoWbtTibpWZ4_vogtW_pg/exec";
+
+let tempUser="";
+
+/* UI SWITCH */
+function showRegister(){
+  loginForm.classList.add("hidden");
+  registerForm.classList.remove("hidden");
+}
+function showLogin(){
+  registerForm.classList.add("hidden");
+  loginForm.classList.remove("hidden");
+}
+
+/* LOGIN */
+async function login(){
+  const u=loginUser.value.trim();
+  const p=loginPass.value.trim();
+
+  const url=`${API}?action=login&username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`;
+  const res=await fetch(url);
+  const data=await res.json();
+
+  if(data.status==="success"){
+    localStorage.setItem("LOGGED_IN","yes");
+    location.href="app.html";
+  }else{
+    alert("Login failed ❌");
+  }
+}
+
+/* REGISTER */
+async function register(){
+  const u=regUser.value.trim();
+  const e=regEmail.value.trim();
+  const p=regPass.value.trim();
+
+  if(!u||!e||!p){
+    alert("All fields required");
+    return;
+  }
+
+  const url=`${API}?action=register&username=${u}&email=${e}&password=${p}`;
+  const res=await fetch(url);
+  const data=await res.json();
+
+  if(data.status==="otp_sent"){
+    tempUser=u;
+    registerForm.classList.add("hidden");
+    otpForm.classList.remove("hidden");
+    alert("OTP Gmail पर भेज दिया गया है");
+  }
+}
+
+/* VERIFY OTP */
+async function verifyOTP(){
+  const o=otp.value.trim();
+  const url=`${API}?action=verify&username=${tempUser}&otp=${o}`;
+  const res=await fetch(url);
+  const data=await res.json();
+
+  if(data.status==="verified"){
+    alert("Account verified ✅ अब login करें");
+    location.reload();
+  }else{
+    alert("Invalid OTP ❌");
+  }
+}
+</script>
+
+</body>
+</html>
